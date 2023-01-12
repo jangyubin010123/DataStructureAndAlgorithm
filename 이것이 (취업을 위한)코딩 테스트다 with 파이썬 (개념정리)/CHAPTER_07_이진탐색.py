@@ -352,7 +352,7 @@ print(binary_search(height, m, 0, max(array)))
 # 전체 소스코드는 다음과 같다.
 
 # 7-8.py 답안 예시
-
+"""
 # 떡의 개수(N)와 요청한 떡의 길이(M)을 입력받기
 n, m = list(map(int, input().split()))
 # 각 떡의 개별 높이 정보를 입력받기
@@ -380,3 +380,59 @@ while start <= end:
 
 # 정답 출력
 print(result)
+"""
+
+# 한 장으로 보는 알고리즘
+
+# "이진 탐색"
+# 탐색 범위를 반으로 줄여나가면서 데이터를 빠르게 탐색하는 기법입니다.
+# 이진 탐색은 배열 내부의 데이터가 정렬되어 있을 때만 사용할 수 있으며, 이진 탐색 알고리즘에서는 3가지 변수가 사용됩니다.(시작점, 끝점, 중간점)
+# "시작점, 끝점"은 탐색하고자 하는 범위를 나타내기 위해 사용하며, 탐색 범위의 "중간점"에 있는 데이터와 찾고자 하는 데이터를 비교합니다.
+# ....
+
+# -->> """bisect 클래스"""
+# 단순히 정렬된 배열에서 특정한 데이터를 찾도록 요구하는 문제에서는 이진 탐색을 직접 구현할 필요 없이 단순히 "파이썬의 표준 라이브러리 중에서 bisect 모듈"을 사용할 수도 있습니다.
+# 라이브러리의 사용 방법은 부록을 참고하세요.
+# 출제자가 이진 탐색을 의도하지 않았어도 이진 탐색을 이용하면 매우 효과적으로 해결할 수 있는 문제가 종종 등장합니다.
+# 최소한 이진 탐색 라이브러리인 bisect 모듈의 사용 방법은 기억해두세요..!!
+
+# "bisect" : 이진 탐색(Binary Search) 기능을 제공하는 라이브러리이다.
+# 파이썬에서는 이진 탐색을 쉽게 구현할 수 있도록 bisect 라이브러리를 제공한다. bisect 라이브러리는 '정렬된 배열'에서 특정한 원소를 찾아야 할 때 매우 효과적으로 사용된다.
+# -->> "'bisect 라이브러리'에서는 'bisect_left() 함수'와 'bisect_right() 함수'가 가장 중요하게 사용되며, -->> 이 두 함수는 '시간 복잡도 : O(logN)'에 동작한다."
+# * bisect_left(a, x) : 정렬된 순서를 유지하면서 리스트 a에 데이터 x를 삽입할 가장 왼쪽 인덱스를 찾는 메서드
+# * bisect_right(a, x) : 정렬된 순서를 유지하도록 리스트 a에 데이터 x를 삽입할 가장 오른쪽 인덱스를 찾는 메서드
+# 예를 들어 정렬된 리스트 [1, 2, 4, 4, 8]이 있을 때, 새롭게 데이터 4를 삽입하려 한다고 가정하자.
+# 이때 bisect_left(a, 4)와 bisect_right(a, 4)는 각각 인덱스값으로 2와 4를 반환한다.
+# ....
+# 이를 소스코드로 구현하면 다음과 같다.
+"""
+from bisect import bisect_left, bisect_right
+
+a = [1, 2, 4, 4, 8]
+x = 4
+
+print(bisect_left(a, x)) # 출력 결과 : 2
+print(bisect_right(a, x)) # 출력 결과 : 4
+"""
+# -->> "또한 bisect_left() 함수와 bisect_right() 함수는 '정렬된 리스트'에서 '값이 특정한 범위에 속하는 원소의 개수'를 구하고자 할 때, 효과적으로 사용할 수 있다."
+# 아래의 count_by_range(a, left_value, right_value) 함수를 확인해보자.
+# 이는 정렬된 리스트에서 값이 [left_value, right_value]에 속하는 데이터의 개수를 반환한다.
+# 다시 말해 원소의 값을 x라고 할 때, left_value <= x <= right_value인 원소의 개수를 O(logN)으로 빠르게 계산할 수 있다.
+"""
+from bisect import bisect_left, bisect_right
+
+# 값이 [left_value, right_value]인 데이터의 개수를 반환하는 함수
+def count_by_range(a, left_value, right_value):
+    right_index = bisect_right(a, right_value) - 1
+    left_index = bisect_left(a, left_value)
+    return right_index - left_index + 1
+
+# 리스트 선언
+a = [1, 2, 3, 3, 3, 3, 4, 4, 8, 9]
+
+# 값이 4인 데이터 개수 출력
+print(count_by_range(a, 4, 4)) # 출력 결과 : 2
+
+# 값이 [-1, 3] 범위에 있는 데이터 개수 출력
+print(count_by_range(a, -1, 3)) # 출려 결과 : 6
+"""
