@@ -33,4 +33,4 @@ def solution(numbers):
 
 # print(solution([2,7]))
 
-# my solution(X) : "시간초과" 판정..!!
+# my solution(X) : "시간초과" 판정...!!!
