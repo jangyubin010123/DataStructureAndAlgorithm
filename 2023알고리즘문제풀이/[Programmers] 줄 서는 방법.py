@@ -44,5 +44,5 @@ def solution(n, k):
     k -= 1 # <<-- 문제에서 주어진 k는 인덱스 번호가 아니라 몇번째인지를 나타내는 변수이기 때문에 실제로 정답을 구하는 과정에서는 -1 처리를 해주고 재귀를 돌려야 합니다..!!
     answer = []
     rns = list(range(1, n + 1))
-    recursion(answer, n, k - 1, rns)
+    recursion(answer, n, k, rns)
     return answer
